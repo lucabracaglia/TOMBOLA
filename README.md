@@ -38,3 +38,7 @@ Per elencare tutte le opzioni possibili digitare:
 > `python tombola.py -h`
 
 Premere `return` per estrarre un numero. Dopo ogni numero viene visualizzato il corrispondente risultato per ciascun giocatore.
+
+# Autori
+
+Luca Bracaglia, Daniele Mercuri
