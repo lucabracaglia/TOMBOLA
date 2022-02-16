@@ -12,6 +12,15 @@ def initialize_parser():
     return parser.parse_args()
 
 def numero_giocatori(numero_giocatori):
+    '''
+    Vado a verificare che il numero di giocatori non sia minore di 2
+    altrimenti il gioco non può iniziare
+
+    Input=numero di giocatori
+
+    Output=numero di giocatori oppure un messaggio di avviso che fa notare che il numero di giocatori
+    non pùè sufficiente
+    '''
     if numero_giocatori <= 1:
         print('il numero di giocatori deve essere almeno maggiore di 1')
         sys.exit()
@@ -21,6 +30,13 @@ def numero_giocatori(numero_giocatori):
 
 def confronta_lista_cartelle(numero_giocatori, lista_cartelle):
 
+    '''
+    Verificare che il numero di cartelle sia uguale a quello dei giocatori.
+
+    Input=Numero di giocatori e una lista in cui ci sono le cartelle assegnate a ogni giocatore.
+
+    '''
+
     if len(lista_cartelle)==numero_giocatori:
         return True
     else:
@@ -28,6 +44,16 @@ def confronta_lista_cartelle(numero_giocatori, lista_cartelle):
         exit()  
 
 def numero_cartelle(lista_cartelle):
+
+    '''
+    Vincolo sul numero di cartelle per ogni giocatore.
+
+    Input=lista di cartelle.
+
+    Output=numero di cartelle per ogni giocatore oppure dei messaggi che avvisano che il numero di cartelle per ogni giocatore
+    non sono sufficienti oppure sono troppe.
+
+    '''
 
     for i in range (lista_cartelle):
         if lista_cartelle[i]<1:
