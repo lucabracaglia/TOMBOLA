@@ -11,20 +11,18 @@ def initialize_parser():
 
     return parser.parse_args()
 
-
 def numero_giocatori(numero_giocatori):
     if numero_giocatori <= 1:
         print('il numero di giocatori deve essere almeno maggiore di 1')
         sys.exit()
     else:
-        return True
+        return numero_giocatori
 
 
 def confronta_lista_cartelle(numero_giocatori, lista_cartelle):
 
     if len(lista_cartelle)==numero_giocatori:
         return True
-    
     else:
         print('il numero di cartelle deve corrispondere al numero di giocatori')
         exit()  
