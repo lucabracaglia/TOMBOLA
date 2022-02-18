@@ -1,3 +1,4 @@
+from operator import index
 from tkinter.tix import Tree
 import numpy as np
 import random
@@ -25,6 +26,14 @@ class Cartella:
     def visualizza_elemento(self,i,j):
         
         return self.cartella[i,j]
+    
+    '''restituisce il numero di elementi sulla colonna specificata dall'indice'''
+    def conta_elementi_colonne(self, index_colonna):
+        return self.conta_colonne[index_colonna]
+
+    '''restituisce il numero di elementi sulla riga specificata dall'indice'''
+    def conta_elementi_rige(self, index_riga):
+        return self.conta_righe[index_riga]
 
     '''serve per aumentare i contatori riga colonna quando verrà aggiunt un numero'''
     def aumenta_conteggio(self,index_riga, index_colonna): 
@@ -35,6 +44,12 @@ class Cartella:
     def inserisci_numero(self,index_riga,index_colonna,numero):
         self.cartella[index_riga,index_colonna] = numero
         self.aumenta_conteggio(index_riga, index_colonna)
+    
+    '''permette di eliminare un numero specificati gli indici di dove si vuole eliminare'''  
+    def elimina_numero(self,index_riga,index_colonna):
+        self.cartella[index_riga,index_colonna] = 0
+        self.conta_colonne[index_colonna]-= 1
+        self.conta_righe[index_riga] -= 1
 
     '''se nella matrice è presente il numero 0 è considerate posizione libera, perciò se l' elemento corrispondente è diverso da zero --> True'''
     def posizione_occupata(self,index_riga,index_colonna):
@@ -120,10 +135,32 @@ class Cartella:
             return False
     '''verifica contemporaneamente che una cartella rispetti i vincoli riga e colonna'''    
     def vincoli(self):
-        if (self.vincoli_colonne) and (self.vincoli_righe):
+        if (self.vincoli_colonne()) and (self.vincoli_righe()):
             return True
         else:
-            return False 
+            return False
+
+    def altera_posizione_righa(self,index_riga):
+        r=random.randint(1,8)
+        c=random.randint(1,8)
+        numero=0
+
+        if self.posizione_occupata(index_riga,r):
+            if self.posizione_occupata(index_riga,c):
+                pass
+            else:
+                numero=self.visualizza_elemento(index_riga,r)
+                self.elimina_numero(index_riga,r)
+                self.inserisci_numero(index_riga,c,1)
+        else:
+            pass
+        
+        if self.vincoli():
+             return self.cartella
+        else:
+            self.elimina_numero(index_riga,c)
+            self.inserisci_numero(index_riga,r,numero)
+            pass
 
     '''inserisce in posizioni casuali il numero 1, forzando che su ogni riga ce ne siano 5'''
     def genera_posizioni(self):
