@@ -22,13 +22,13 @@ def numero_giocatori(numero_giocatori):
     non pùè sufficiente
     '''
     if numero_giocatori <= 1:
-        print('il numero di giocatori deve essere almeno maggiore di 1')
+        print('Il numero di giocatori deve essere almeno maggiore di 1')
         sys.exit()
     else:
         return numero_giocatori
 
 
-def confronta_lista_cartelle(numero_giocatori, lista_cartelle):
+def confronta_lista_cartelle(numero_giocatori,lista_cartelle):
 
     '''
     Verificare che il numero di cartelle sia uguale a quello dei giocatori.
@@ -36,12 +36,15 @@ def confronta_lista_cartelle(numero_giocatori, lista_cartelle):
     Input=Numero di giocatori e una lista in cui ci sono le cartelle assegnate a ogni giocatore.
 
     '''
-
     if len(lista_cartelle)==numero_giocatori:
         return True
+    elif len(lista_cartelle)<=numero_giocatori:
+        print('A ogni giocatore deve essere assegnata almeno una cartella')
+        sys.exit()
     else:
-        print('il numero di cartelle deve corrispondere al numero di giocatori')
-        exit()  
+        print('I giocatori sono '+ str(numero_giocatori) +' , hai assegnato troppe cartelle, inseriscine '+ str(len(lista_cartelle)-numero_giocatori) + ' di meno')
+        sys.exit()
+
 
 def numero_cartelle(lista_cartelle):
 
@@ -54,27 +57,11 @@ def numero_cartelle(lista_cartelle):
     non sono sufficienti oppure sono troppe.
 
     '''
-
-    for i in range (lista_cartelle):
-        if lista_cartelle[i]<1:
-            print('prendi una cartella')
-            exit() 
-        elif lista_cartelle[i]>=8:
-            print('troppe cartelle')
-            exit() 
-        else:
-            return lista_cartelle
-
-
-def estrazione(estratti):
-    
-    numero_estratto = random.randint(1, 90)
-    if numero_estratto not in estratti:    
-        print("il numero estratto è:", numero_estratto)
-        estratti.append(numero_estratto)
-    else: 
-        numero_estratto = estrazione(estratti)
-    
-    return estratti
-
-
+    for i in lista_cartelle:
+        if i<1:
+            print('Ogni giocatore deve avere una o più cartelle')
+            sys.exit() 
+        elif i>5:
+            print('Ogni singolo giocatore non può avere più di 5 cartelle')
+            sys.exit() 
+    return lista_cartelle
