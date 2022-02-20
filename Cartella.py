@@ -11,20 +11,22 @@ class Cartella:
         self.conta_colonne = np.zeros(9) 
         self.conta_righe = np.zeros(3)
 
+    '''azzera i contatori, nel caso si siano effettuate sulla cartella operazioni superflue'''
+    def azzera_contatori(self):
+        self.conta_colonne = np.zeros(9) 
+        self.conta_righe = np.zeros(3)
+
     '''rende nuovamente la cartella una matrice di zeri e azzera i contatori'''
     def elimina_cartella(self):
         self.cartella = np.zeros((3,9))
-        self.conta_colonne = np.zeros(9) 
-        self.conta_righe = np.zeros(3)
+        self.azzera_contatori()
         
     '''permette la visualizzazione di una cartella'''
     def visualizza(self):
-
         return self.cartella
 
     '''specificati gli indici permette di visualizzare l'elemtìnto corrispondente nella cartella'''
     def visualizza_elemento(self,i,j):
-        
         return self.cartella[i,j]
     
     '''restituisce il numero di elementi sulla colonna specificata dall'indice'''
@@ -35,10 +37,15 @@ class Cartella:
     def conta_elementi_rige(self, index_riga):
         return self.conta_righe[index_riga]
 
-    '''serve per aumentare i contatori riga colonna quando verrà aggiunt un numero'''
+    '''serve per aumentare i contatori riga colonna quando verrà aggiunto un numero'''
     def aumenta_conteggio(self,index_riga, index_colonna): 
         self.conta_righe[index_riga] += 1
         self.conta_colonne[index_colonna] += 1
+    
+    '''serve per ridurre i contatori riga colonna quando verrà sottratto un numero'''
+    def riduci_conteggio(self,index_riga, index_colonna):
+        self.conta_righe[index_riga] -= 1
+        self.conta_colonne[index_colonna] -= 1
 
     '''permette di inserire un numero specificati gli indici di dove si vuole inserire'''    
     def inserisci_numero(self,index_riga,index_colonna,numero):
@@ -48,8 +55,7 @@ class Cartella:
     '''permette di eliminare un numero specificati gli indici di dove si vuole eliminare'''  
     def elimina_numero(self,index_riga,index_colonna):
         self.cartella[index_riga,index_colonna] = 0
-        self.conta_colonne[index_colonna]-= 1
-        self.conta_righe[index_riga] -= 1
+        self.riduci_conteggio(index_riga, index_colonna)
 
     '''se nella matrice è presente il numero 0 è considerate posizione libera, perciò se l' elemento corrispondente è diverso da zero --> True'''
     def posizione_occupata(self,index_riga,index_colonna):
@@ -133,6 +139,7 @@ class Cartella:
             return True
         else: 
             return False
+
     '''verifica contemporaneamente che una cartella rispetti i vincoli riga e colonna'''    
     def vincoli(self):
         if (self.vincoli_colonne()) and (self.vincoli_righe()):
@@ -141,25 +148,26 @@ class Cartella:
             return False
 
     def altera_posizione_righa(self,index_riga):
-        r=random.randint(1,8)
-        c=random.randint(1,8)
+        '''non viene alterata la posizione dell ultima colonna per garantire che la posizione del 90 resti invariata'''
+        eliminare=random.randint(1,7)
+        inserire=random.randint(1,7)
         numero=0
 
-        if self.posizione_occupata(index_riga,r):
-            if self.posizione_occupata(index_riga,c):
+        if self.posizione_occupata(index_riga,eliminare): #verifico che la posizione da eliminare sia effettivamente occupate
+            if self.posizione_occupata(index_riga,inserire): #verifico che la posizione che voglio occupare non sia già occupata
                 pass
             else:
-                numero=self.visualizza_elemento(index_riga,r)
-                self.elimina_numero(index_riga,r)
-                self.inserisci_numero(index_riga,c,1)
+                numero=self.visualizza_elemento(index_riga,eliminare)
+                self.elimina_numero(index_riga,eliminare)
+                self.inserisci_numero(index_riga,inserire,1)
         else:
             pass
         
-        if self.vincoli():
+        if self.vincoli(): #verifico che la nuova configurazione rispetti i vincoli
              return self.cartella
-        else:
-            self.elimina_numero(index_riga,c)
-            self.inserisci_numero(index_riga,r,numero)
+        else:   #altrimenti ripristino la situazione precedente
+            self.elimina_numero(index_riga,inserire)
+            self.inserisci_numero(index_riga,eliminare,numero)
             pass
 
     '''inserisce in posizioni casuali il numero 1, forzando che su ogni riga ce ne siano 5'''
@@ -238,106 +246,21 @@ class Cartella:
     sulla ottava 70 79 
     sulla nona 80 89 (90 escluso che viene trattato separatamente)'''
 
-    '''una cartella viene realizzata con il 90 al suo interno, perciò gli viene passata la struttura realizzata con: genera90()'''
-    def assegna90(self):
-        decine={0:[1,2,3,4,5,6,7,8,9],
-                1:[10,11,12,13,14,15,16,17,18,19],
-                2:[20,21,22,23,24,25,26,27,28,29],
-                3:[30,31,32,33,34,35,36,37,38,39],
-                4:[40,41,42,43,44,45,46,47,48,49],
-                5:[50,51,52,53,54,55,56,57,58,59],
-                6:[60,61,62,63,64,65,66,67,68,69],
-                7:[70,71,72,73,74,75,76,77,78,79],
-                8:[80,81,82,83,84,85,86,87,88,89]}
-        
-        self.elimina_cartella()
-        self.genera90()
-        index=self.posiszioni_occupate()[1]
-        l=[]
-        exitcond=False
-        for i in range(3):
-            for j in range(9):
-                if self.posizione_occupata(i,j):
-                    if i==2 and j==8:
-                        n=90
-                        self.inserisci_numero(i,j,n)
-                        l.append(n)
-                    else:
-                        k=random.randint(0,len(decine[j])-1)
-                        n=decine[j][k]
-                        
-                        while exitcond==False:
-                            if n in l:
-                                k=random.randint(0,len(decine[j])-1)
-                                n=decine[j][k]
-                                
-                            else:
-                                exitcond=True
-        
-                        exitcond=False
-                        self.inserisci_numero(i,j,n)
-                        l.append(n)
-                    
-
-        return self.cartella, l
-
     
-    '''le altre cartelle vengono realizzate assicurandoci che l'ultima posizione non sia occupata quindi si usa la struttura realizzata con: verifica_pos_90()'''
-    def assegna_numeri(self):
-        
-        decine={0:[1,2,3,4,5,6,7,8,9],
-                1:[10,11,12,13,14,15,16,17,18,19],
-                2:[20,21,22,23,24,25,26,27,28,29],
-                3:[30,31,32,33,34,35,36,37,38,39],
-                4:[40,41,42,43,44,45,46,47,48,49],
-                5:[50,51,52,53,54,55,56,57,58,59],
-                6:[60,61,62,63,64,65,66,67,68,69],
-                7:[70,71,72,73,74,75,76,77,78,79],
-                8:[80,81,82,83,84,85,86,87,88,89]}
-        
-        self.elimina_cartella()
-        self.verifica_pos_90()
-        index=self.posiszioni_occupate()[1]
-        l=[]
-        exitcond=False
-        for i in range(3):
-            for j in range(9):
-                if self.posizione_occupata(i,j):
-                    k=random.randint(0,len(decine[j])-1)
-                    n=decine[j][k]
-                    
-                    while exitcond==False:
-                        if n in l:
-                            k=random.randint(0,len(decine[j])-1)
-                            n=decine[j][k]
-                            
-                        else:
-                            exitcond=True
-
-                    exitcond=False
-                    self.inserisci_numero(i,j,n)
-                    l.append(n)
-                    
-
-        return self.cartella, l
-
-
+    
     '''funzione a cui si passa il dizionario 'decine' a cui verranno tolti i numeri già utilizzati, evitando cosi ripetizioni'''
-    def assegna_numeri_gruppo(self, decine):
-            
-        self.elimina_cartella()
-        self.verifica_pos_90()
-        index=self.posiszioni_occupate()[1]
-        
+    def assegna_numeri_cartella(self, decine):
+
         l=[]
         exitcond=False
         for i in range(3):
             for j in range(9):
                 if self.posizione_occupata(i,j):
-                    if i==2 and j==8:
+                    if i==2 and j==8: # assicuriamo che l'ultima posizione si occupata dal 90
                         n=90
                         self.inserisci_numero(i,j,n)
                         l.append(n)
+                        del decine[8][-1]
                     else:
                         k=random.randint(0,len(decine[j])-1)
                         n=decine[j][k]
@@ -354,4 +277,12 @@ class Cartella:
                         self.inserisci_numero(i,j,n)
                         l.append(n)
 
-        return self.cartella, l
+                        #elimino dal dizionario 'decine' i numeri estratti
+                        for q in range(9):
+                            for w in range(len(decine[q])):
+                                if (decine[q][w-1]==n):
+                                    del decine[q][w-1]
+
+
+                        
+        return self.cartella, decine
