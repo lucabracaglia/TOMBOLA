@@ -154,7 +154,6 @@ class Tabellone():
         coppia2[0]=c6+c7
         coppia2[1]=c8+c9
         coppia2[2]=c10+c11
-
         coppia3=np.zeros((3,10))
         coppia3[0]=c12+c13
         coppia3[1]=c14+c15
