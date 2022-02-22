@@ -113,12 +113,6 @@ class Tabellone():
         cartella_tabellone1[1]=c2
         cartella_tabellone1[2]=c4
 
-        '''
-        la seconda:
-        6 7 8 9 10
-        16 17 18 19 20 
-        26 27 28 29 30 
-        '''
         cartella_tabellone2=np.zeros((3,5))
         cartella_tabellone2[0]=c1
         cartella_tabellone2[1]=c3
@@ -154,6 +148,7 @@ class Tabellone():
         coppia2[0]=c6+c7
         coppia2[1]=c8+c9
         coppia2[2]=c10+c11
+
         coppia3=np.zeros((3,10))
         coppia3[0]=c12+c13
         coppia3[1]=c14+c15
@@ -208,7 +203,6 @@ class Tabellone():
     def singola_cartella_tab_dx_sx(self,i):
         return self.cartellone_dx_sx[i]
 
-    '''restituisce gli indici posizionali del numero estratto (nella lista di cartelle 3X5, si potrebbe usare nel caso si volesse far partecipare al gioco il tabellone e quindi per stabilire se una di questa cartelle più piccole sia vincente)'''
     def pos_numero_estratto(self,n):
         for i in range(3):
             for j in range(5):
@@ -216,22 +210,19 @@ class Tabellone():
                     if self.singola_cartella_tab_dx_sx(k)[i][j]==n:
                         return k,i,j
 
-    '''dati gli indici permette di inserire un '-1' nella posizione desiderata (per una singola cartella 3X5)'''
     def sostituisci_numero(self, k, i, j):
         self.singola_cartella_tab_dx_sx(k)[i][j]=-1
 
-    '''gli indici posizionali del numero estratto (nella lista di cartelle 3X10 che si usa per la visualizzazione ordinate del cartellone)'''
     def pos_numero_estratto_tabellone(self,n):
         for i in range(3):
             for j in range(10):
                 for k in range(3):
                     if self.cartellone[k][i][j]==n:
                         return k,i,j
-    '''dati gli indici posizionali permette di inserire un '-1' nella posizione desiderata (nel cartellone composto da cartelle 3X10)'''
+    
     def sostituisci_numero_tabellone(self,k,i,j):
         self.cartellone[k][i][j]=-1
 
-    '''restituisce un contatore che stabilisce su una cartella 3X5 quanti '-1' ci sono (utile nel caso si volesse ammettere il tabellone al gioco.) '''
     def conta_elementi_estratti_tabellone(self,k,i):
         c=0
         for j in range(5):

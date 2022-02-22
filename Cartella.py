@@ -1,5 +1,4 @@
-from operator import index
-from tkinter.tix import Tree
+
 import numpy as np
 import random
 
@@ -24,6 +23,21 @@ class Cartella:
     '''permette la visualizzazione di una cartella'''
     def visualizza(self):
         return self.cartella
+    
+    '''permette la visualizzazione in formato migliore della cartelle (rendendo i numeri interi e sostituendo ai numeri estratti un * e algli zeri uno segno: --)'''
+    def stampa(self):
+        for r in range(3):
+            print('[ ',end='')
+            for c in range(9):
+                if self.visualizza_elemento(r,c) == 0:
+                    print('--',end=' ')
+                elif self.visualizza_elemento(r,c) == -1:
+                    print('*',end=' ')
+                else:
+                    print(int(self.visualizza_elemento(r,c)),end=' ')
+            print(']')
+        print('\n')
+        pass
 
     '''specificati gli indici permette di visualizzare l'elemtìnto corrispondente nella cartella'''
     def visualizza_elemento(self,i,j):
@@ -36,6 +50,16 @@ class Cartella:
     '''restituisce il numero di elementi sulla riga specificata dall'indice'''
     def conta_elementi_rige(self, index_riga):
         return self.conta_righe[index_riga]
+    
+    '''restituisce il numero di elementi estratti su una righa della cartella'''
+    def conta_elementi_estratti_cartella(self,i):
+        c=0
+        for j in range(9):
+            if self.cartella[i][j]==-1:
+                c+=1
+            else:
+                pass
+        return c
 
     '''serve per aumentare i contatori riga colonna quando verrà aggiunto un numero'''
     def aumenta_conteggio(self,index_riga, index_colonna): 
@@ -56,6 +80,24 @@ class Cartella:
     def elimina_numero(self,index_riga,index_colonna):
         self.cartella[index_riga,index_colonna] = 0
         self.riduci_conteggio(index_riga, index_colonna)
+    
+    '''restituisce gli indici di posizione nel caso un numero n sia presente nella cartella'''
+    def cerca_numero(self,n):
+        index_r=[]
+        index_c=[]
+        for i in range(3):
+            for j in range(9):
+                if self.cartella[i][j]==n:
+                   index_r.append(i)
+                   index_c.append(j)
+                else:
+                    pass
+        if len(index_r)>0 and len(index_c)>0:
+            return index_r, index_c, True
+        
+        else:
+            return index_r, index_c, False
+            
 
     '''se nella matrice è presente il numero 0 è considerate posizione libera, perciò se l' elemento corrispondente è diverso da zero --> True'''
     def posizione_occupata(self,index_riga,index_colonna):
@@ -147,6 +189,7 @@ class Cartella:
         else:
             return False
 
+    '''effettuo delle modifica casuali alle posizioni della cartella per permettere la generazione di Gruppi_Cartella'''
     def altera_posizione_righa(self,index_riga):
         '''non viene alterata la posizione dell ultima colonna per garantire che la posizione del 90 resti invariata'''
         eliminare=random.randint(1,7)
@@ -277,7 +320,7 @@ class Cartella:
                         self.inserisci_numero(i,j,n)
                         l.append(n)
 
-                        #elimino dal dizionario 'decine' i numeri estratti
+                        #elimino dal dizionario 'decine' i numeri già usati
                         for q in range(9):
                             for w in range(len(decine[q])):
                                 if (decine[q][w-1]==n):
