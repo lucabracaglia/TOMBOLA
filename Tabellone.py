@@ -227,6 +227,7 @@ class Tabellone:
     def sostituisci_numero(self, k, i, j):
         self.singola_cartella_tab_dx_sx(k)[i][j]=-1
 
+
     '''A differenza di pos_numero_estratto viene restituita la posizione all'interno dell'intero tabellone e non della singola cartella. Tenendo conto del ragionamento fatto,
     avendo utilizzato delle coppie di cartelle adiacenti, ad esempio il numero 48 si troverà in posizione (1,1,7)'''
     def pos_numero_estratto_tabellone(self,n):
