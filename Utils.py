@@ -26,9 +26,14 @@ def confronta_lista_cartelle(numero_giocatori, lista_cartelle):
     if len(lista_cartelle)==numero_giocatori:
         return True
     
+    elif len(lista_cartelle)<=numero_giocatori:
+        print('A ogni giocatore deve essere assegnata almeno una cartella')
+        sys.exit()
+    
     else:
-        print('Il numero di cartelle deve corrispondere al numero di giocatori')
-        exit()  
+        print('I giocatori sono '+ str(numero_giocatori) +' , hai assegnato troppe cartelle, inseriscine '+ str(len(lista_cartelle)-numero_giocatori) + ' di meno')
+        sys.exit()
+
 
 '''verifica che ogni giocatore abbia un numero congruo di cartelle (almeno 1, massimo 6)'''
 def numero_cartelle(lista_cartelle):
