@@ -105,19 +105,6 @@ class Cartella:
         else:
             return False
 
-    '''restituisce in due liste di indici delle posizioni libere per riga e collonna.'''
-    def posizione_libera(self):
-        index_riga=[]
-        index_colonna=[]
-        for i in range(3):
-            for j in range(9):
-                if self.cartella[i][j]==0:
-                    index_riga.append(i)
-                    index_colonna.append(j)
-                else: 
-                    pass
-        return index_riga, index_colonna
-
 
     '''restituisce in una lista gli indici delle posizioni libere per riga.'''
     def posizione_libera_colonna(self,i):
