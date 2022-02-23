@@ -1,30 +1,37 @@
-
 import numpy as np
 import random
 
 class Cartella:
 
+    '''Viene creata la classe Cartella: ogni cartella sarà rappresentata come una matrice di 3 righe e 9 colonne, inizialmente 
+    con tutti valori 0, che poi verrà popolata seguendo i vincoli richiesti dal problema.'''
+
     def __init__(self,cartella=None,conta_colonne=None,conta_righe=None):
-        '''creo una matrice 3X9 di zeri'''
+        '''Creo una matrice 3X9 di zeri'''
         self.cartella = np.zeros((3,9))
         self.conta_colonne = np.zeros(9) 
         self.conta_righe = np.zeros(3)
 
-    '''azzera i contatori, nel caso si siano effettuate sulla cartella operazioni superflue'''
+    '''Tale metodo permette di azzerare i contatori, nel caso si siano effettuate sulla cartella operazioni superflue'''
     def azzera_contatori(self):
         self.conta_colonne = np.zeros(9) 
         self.conta_righe = np.zeros(3)
 
-    '''rende nuovamente la cartella una matrice di zeri e azzera i contatori'''
+    '''Tale metodo rende nuovamente la cartella una matrice di zeri e azzera i contatori'''
     def elimina_cartella(self):
         self.cartella = np.zeros((3,9))
         self.azzera_contatori()
         
-    '''permette la visualizzazione di una cartella'''
+    '''Tale metodo permette la visualizzazione di una cartella'''
     def visualizza(self):
         return self.cartella
+
+    '''Specificati gli indici di posizione nella cartella in input viene restituito in output l'elemento situato in quella data posizione'''
+    def visualizza_elemento(self,i,j):
+        return self.cartella[i,j]
     
-    '''permette la visualizzazione in formato migliore della cartelle (rendendo i numeri interi e sostituendo ai numeri estratti un * e algli zeri uno segno: --)'''
+    '''Permette la visualizzazione in formato migliore della cartelle (Al posto degli zeri presenti nella cartella viene inserito un '--', se il numero presente nella cartella è -1(numero estratto)
+    viene inserito :'*', altrimenti viene visualizzato il numero intero)'''
     def stampa(self):
         for r in range(3):
             print('[ ',end='')
@@ -38,20 +45,12 @@ class Cartella:
             print(']')
         print('\n')
         pass
-
-    '''specificati gli indici permette di visualizzare l'elemtìnto corrispondente nella cartella'''
-    def visualizza_elemento(self,i,j):
-        return self.cartella[i,j]
     
-    '''restituisce il numero di elementi sulla colonna specificata dall'indice'''
+    '''Dato in input l'indice associato alla colonna della cartella, viene restituito in output il numero di elementi su tale colonna'''
     def conta_elementi_colonne(self, index_colonna):
         return self.conta_colonne[index_colonna]
-
-    '''restituisce il numero di elementi sulla riga specificata dall'indice'''
-    def conta_elementi_rige(self, index_riga):
-        return self.conta_righe[index_riga]
     
-    '''restituisce il numero di elementi estratti su una righa della cartella'''
+    '''Dato in  input l'indice associato alla riga viene restituito in output il numero di elementi c estratti su tale riga'''
     def conta_elementi_estratti_cartella(self,i):
         c=0
         for j in range(9):
@@ -61,27 +60,27 @@ class Cartella:
                 pass
         return c
 
-    '''serve per aumentare i contatori riga colonna quando verrà aggiunto un numero'''
+    '''Noti in input gli indici di posizione della cartella, tale metodo permette di aggiornare il conteggio sulle righe e sulle colonne della matrice quando viene inserito un numero'''
     def aumenta_conteggio(self,index_riga, index_colonna): 
         self.conta_righe[index_riga] += 1
         self.conta_colonne[index_colonna] += 1
     
-    '''serve per ridurre i contatori riga colonna quando verrà sottratto un numero'''
+    '''Analogo discorso del metodo precedente, serve per decrementare il conteggio'''
     def riduci_conteggio(self,index_riga, index_colonna):
         self.conta_righe[index_riga] -= 1
         self.conta_colonne[index_colonna] -= 1
 
-    '''permette di inserire un numero specificati gli indici di dove si vuole inserire'''    
+    '''Tale metodo permette di inserire un numero specificato negli indici di posizione prestabiliti della cartella'''    
     def inserisci_numero(self,index_riga,index_colonna,numero):
         self.cartella[index_riga,index_colonna] = numero
         self.aumenta_conteggio(index_riga, index_colonna)
     
-    '''permette di eliminare un numero specificati gli indici di dove si vuole eliminare'''  
+    '''Metodo che permette di posizionare uno 0 negli indici di posizione desiderata'''  
     def elimina_numero(self,index_riga,index_colonna):
         self.cartella[index_riga,index_colonna] = 0
         self.riduci_conteggio(index_riga, index_colonna)
     
-    '''restituisce gli indici di posizione nel caso un numero n sia presente nella cartella'''
+    '''Dato un numero n in input tale metodo restituisce gli indici di posizione di tale numero nel caso in cui sia presente nella cartella'''
     def cerca_numero(self,n):
         index_r=[]
         index_c=[]
@@ -119,18 +118,6 @@ class Cartella:
                     pass
         return index_riga, index_colonna
 
-    '''restituisce due liste di indici delle posizioni occupate nella matrice'''
-    def posiszioni_occupate(self):
-        index_riga=[]
-        index_colonna=[]
-        for i in range(3):
-            for j in range(9):
-                if self.cartella[i][j]!=0:
-                    index_riga.append(i)
-                    index_colonna.append(j)
-                else: 
-                    pass
-        return index_riga, index_colonna
 
     '''restituisce in una lista gli indici delle posizioni libere per riga.'''
     def posizione_libera_colonna(self,i):
