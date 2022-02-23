@@ -1,25 +1,30 @@
 
 1)Caso in cui non venga passato niente alla linea di comando
+
 PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py
 Digita -h per vedere gli argomenti da inserire sulla linea di comando
 
 2)Caso in cui sia passato un solo argomento sulla linea di comando
+
 PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py -g 2
 Digita -h per vedere gli argomenti da inserire sulla linea di comando
 ''Chiaramente vale anche se inserisco solo il numero di cartelle per giocatore''
 
 3)Caso in cui passo un numero di cartelle superiore al numero di giocatori
+
 PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py -g 2 -n 3 4 5
 I giocatori sono 2 , hai assegnato troppe cartelle, inseriscine 1 di meno
 
 4)Caso in cui passo un numero di cartelle minore del numero di giocatori
+
 PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py -g 2 -n 3     
 A ogni giocatore deve essere assegnata almeno una cartella
 
-5)Caso in cui passo un numero di cartelle per giocatore superiore a quelle consentite (>5)
-PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py -g 2 -n 3 6
-Ogni singolo giocatore non può avere più di 5 cartelle
+5)Caso in cui passo un numero di cartelle per giocatore superiore a quelle consentite (>7)
+
+PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py -g 3 -n 2 3 8
+Ogni singolo giocatore non può avere più di 7 cartelle
 
 6)Caso valido, per cui si può iniziare il gioco
+
 PS C:\Users\Utente\Desktop\TOMBOLA> python .\main.py -g 2 -n 3 5
-Si può iniziare
