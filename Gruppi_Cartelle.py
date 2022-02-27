@@ -2,8 +2,18 @@ import random
 import Cartella
 
 class Gruppi:
-    '''6 cartelle per gruppo'''
-    def __init__(self,numero_max_cartelle=5):
+
+    '''
+    Si deve generare un gruppo di sei cartelle diverse, senza ripetizioni di numeri.
+    
+    L'idea che caratterizza le prossime funzioni è la seguente:
+    poichè è necessario che la somma degli elementi sulle colonne di un gruppo sia sulla prima colonna pari a 9 (sulla prima colonna ci vanno i numeri da 1 a 9 e perciò è necessario che la somma degli elementi sia pari a 9).
+    La somma degli elementi dell' ultima colonna invece è 11 (80 a 90 inclusi) 
+    Va generato un gruppo che rispetta la condizione sulla prima e sull'ultima colonna, successivamente si effettua un controllo sul gruppo creato e si verifica se per ogni altra colonna la somma sia pari a 10.
+    se non è così si alternao casualmente le cartelle finchè tali vincoli non sono rispettati.
+    '''
+
+    def __init__(self,numero_max_cartelle=7):
         '''si inizzializza una lista vuota che conterrà sei oggetti --> Cartella: matrici 3X9'''
         self.lista_cartelle=[]
         self.numero_max_cartelle=numero_max_cartelle
@@ -14,23 +24,9 @@ class Gruppi:
     '''dato l'indice della cartella desiderata ne permette la selezione'''
     def singola_cartella(self,i):
         return self.lista_cartelle[i]
-        
-
-    '''
-    --------------------------------------------------------------------------------------------------------------------
-    si deve generare un gruppo di sei cartelle diverse, senza ripetizioni di numeri.
     
-    l'idea che caratterizza le prossime funzioni è la seguente:
-    poichè è necessario che la somma degli elementi sulle colonne di un gruppo sia sulla prima colonna paria a 9 (sulla prima colonna ci vanno i numeri da 1 a 9 e perciò è necessario che la somma delgi elementi sia pari a 9).
-    la somma degli elementi dell' ultima colonna invece è 11 (80 a 90 inclusi) 
-    va generato un gruppo che rispetta la condizione sulla prima e sull' ultima colonna, successivamenta si effettua un controllo sul gruppo creato e si verifica se per ogni altra colonna la somma sia pari a 10.
-    se non è così si alternao casualmente le cartelle finchè tali vincoli non sono rispettati.
-
-    --------------------------------------------------------------------------------------------------------------------
-    '''
-    
-    '''tale funzione fa si che la prima cartella del gruppo sia quella con il 90 nell ultima posizione
-        ed verifica che la somma degli elementi sulla prima colonna sia uguale a 9 (condition == True)'''
+    '''tale metodo fa si che la prima cartella del gruppo sia quella con il 90 nella posizione individuata dagli indici(2,8)
+        e verifica che la somma degli elementi sulla prima colonna sia uguale a 9 (condition == True)'''
     def verifica_posizioni_gruppo_prima_colonna(self):
         self.singola_cartella(0).genera90()
         for i in range(1,6):
@@ -49,7 +45,7 @@ class Gruppi:
 
         return condition
 
-    '''tale funzione garantisce che il gruppo creato abbia 9 elementi sulla prima colonna'''
+    '''tale metodo garantisce che il gruppo creato abbia 9 elementi sulla prima colonna'''
     def genera_gruppo1(self):
         exitcondition = self.verifica_posizioni_gruppo_prima_colonna()
         while exitcondition == False:
@@ -57,7 +53,7 @@ class Gruppi:
             
         return self.lista_cartelle
     
-    '''dato il gruppo di cartelle che rispetta la cindizione sulla prima colonna si impone analogamente che venga rispettata la condizione sull' ultima colonna (11 elementi totali tra le sei cartelle del gruppo)'''
+    '''dato il gruppo di cartelle che rispetta la condizione sulla prima colonna si impone analogamente che venga rispettata la condizione sull' ultima colonna (11 elementi totali tra le sei cartelle del gruppo)'''
     def verifica_posizioni_gruppo_ultima_colonna(self):
         self.genera_gruppo1()
         l=[]
@@ -82,7 +78,7 @@ class Gruppi:
         return self.lista_cartelle
 
 
-    '''la funzione verifica che le colonne 2-8 dell intero gruppo siano formate esattamente da 10 elementi'''
+    '''il metodo verifica che ciascuna colonna: dalla 2 alla 8 dell' intero gruppo siano formate esattamente da 10 elementi'''
     def conta_colonne_gruppo(self):
         
         l1=[]
@@ -111,7 +107,7 @@ class Gruppi:
 
         return condition
 
-    '''tale funzione effettua delle modifiche casuali sugli elementi delle cartelle'''
+    '''tale metodo effettua delle modifiche casuali sugli elementi delle cartelle'''
     def permuta_gruppo(self):
         i=random.randint(1,5)
         j=random.randint(0,2)
